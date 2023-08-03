@@ -136,11 +136,11 @@ update msg model =
               )
             )
 
-        Submitted (Ok album) ->
+        Submitted (Ok _) ->
             ( { model | submitMessage = "succesfully updated record!" }, Cmd.none )
 
         Submitted (Err _) ->
-            ( { model | submitMessage = ""}, Cmd.none )
+            ( model, Cmd.none )
 
         
 

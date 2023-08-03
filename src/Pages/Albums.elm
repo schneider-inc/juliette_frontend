@@ -73,6 +73,7 @@ type Msg
     | GotAlbums (Result Http.Error (List Shared.Album))
     | ToggleLike {id : String, liked : Bool }
     | ClickedDelete String
+    | ChoseWishlistAlbum Shared.Album
 
 queryJson : Model -> Encode.Value
 queryJson model =
@@ -95,6 +96,7 @@ albumJson albumObject =
         , ("borrowedFrom", Encode.string albumObject.borrowedFrom)
         , ("liked", Encode.bool albumObject.liked)
         , ("borrowedReturnDate", Encode.string albumObject.borrowedReturnDate)
+        , ("wishlist", Encode.bool albumObject.wishlist)
         , ("lentOutReturnDate", Encode.string albumObject.lentOutReturnDate)
         ]
 
@@ -166,6 +168,16 @@ update msg model =
               )
             )
 
+        ChoseWishlistAlbum chosenAlbum ->
+            ( model
+            , Http.post(
+                { url = "https://juliette-backend.onrender.com/albums/add"
+                , body = Http.jsonBody (albumJson chosenAlbum)
+                , expect = Http.expectJson GotAlbums (list Shared.albumDecoder)
+                }
+              )
+            )
+
 
 -- SUBSCRIPTIONS
 
@@ -188,9 +200,11 @@ view model =
             [ searchBar model
             , suggestedAlbums model
             , likedAlbums model
+            , el [] (text ("Total spent: " ++ String.fromFloat (List.sum (List.map (\album -> album.price) model.albums))))
             , ownedAlbums model
             , borrowedAlbums model
             , lentOutAlbums model
+            , wishlistAlbums model
             ]
     }
 
@@ -246,6 +260,11 @@ suggestedAlbum albumObject =
                             }
             , el [Font.size 12] (text (String.join ", " albumObject.artists))
             ]
+        , column
+            [ spacing 5 ]
+            [ Input.button [] { onPress = Just (ChoseSuggestedAlbum albumObject), label = text "Add to Owned"}
+            , Input.button [] { onPress = Just (ChoseWishlistAlbum { albumObject | wishlist = True }), label = text "Add to Wishlist"}
+            ]
         ]
 
 basicAlbumStart : Shared.Album -> List (Element Msg)
@@ -290,7 +309,7 @@ albumsWrapper title filterfn albumWrapper model =
 
 ownedAlbums : Model -> Element Msg
 ownedAlbums model = 
-    albumsWrapper "Owned" (\_ -> True) basicAlbum model
+    albumsWrapper "Owned" (\album -> not album.wishlist) basicAlbum model
 
 albumStyles : List (Element.Attribute Msg)
 albumStyles =
@@ -333,6 +352,10 @@ lentOutAlbum albumObject =
            , infoEl "lent out to" albumObject.lentOutTo
            ] ++
            basicAlbumEnd albumObject
+
+wishlistAlbums : Model -> Element Msg
+wishlistAlbums model =
+    albumsWrapper "Wishlist" (\album -> album.wishlist) basicAlbum model
 
 infoEl : String -> String -> Element Msg
 infoEl txt data =

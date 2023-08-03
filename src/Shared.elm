@@ -46,6 +46,7 @@ type alias Album =
     , liked : Bool
     , borrowedReturnDate : String
     , lentOutReturnDate : String
+    , wishlist: Bool
     , songs : List Song
     }
 
@@ -99,6 +100,7 @@ albumDecoder =
         |> optional "liked" bool False
         |> optional "borrowedReturnDate" string ""
         |> optional "lentOutReturnDate" string ""
+        |> optional "wishlist" bool False
         |> optional "songs" (list songDecoder) []
 
 type Msg

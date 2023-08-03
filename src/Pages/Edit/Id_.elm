@@ -142,8 +142,6 @@ update msg model =
         Submitted (Err _) ->
             ( model, Cmd.none )
 
-        
-
 
 
 -- SUBSCRIPTIONS

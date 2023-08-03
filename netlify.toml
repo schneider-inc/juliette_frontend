@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "npm i elm@latest && elm-spa build"
+  command = "npm i elm@latest && npm i elm-spa@latest && elm-spa build"
 
 # Prevents missing markdown files from redirecting to index.html
 [[redirects]]

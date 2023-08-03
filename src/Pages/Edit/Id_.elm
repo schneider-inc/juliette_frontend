@@ -58,7 +58,7 @@ init : Params -> ( Model, Cmd Msg )
 init params =
     ( initialModel params
     , Http.get(
-        { url = "http://192.168.68.108:3000/albums/" ++ (initialModel params).id
+        { url = "http://https://juliette-backend.onrender.com/albums/" ++ (initialModel params).id
         , expect = Http.expectJson GotAlbum Shared.albumDecoder
         }
     ) 
@@ -127,7 +127,7 @@ update msg model =
             , Http.request(
                 { method = "PATCH"
                 , headers = []
-                , url = "http://192.168.68.108:3000/albums/" ++ model.id
+                , url = "http://https://juliette-backend.onrender.com/albums/" ++ model.id
                 , body = Http.jsonBody (patchJson model)
                 , expect = Http.expectJson Submitted Shared.albumDecoder
                 , tracker = Nothing

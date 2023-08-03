@@ -56,7 +56,7 @@ init : Params -> ( Model, Cmd Msg )
 init params =
     ( initialModel params
     , Http.get(
-               { url = "http://192.168.68.108:3000/albums/" ++ (initialModel params).albumId
+               { url = "http://https://juliette-backend.onrender.com/albums/" ++ (initialModel params).albumId
                , expect = Http.expectJson GotAlbum Shared.albumDecoder
                } 
               )
@@ -103,7 +103,7 @@ update msg model =
             , Http.request(
                 { method = "PATCH"
                 , headers = []
-                , url = "http://192.168.68.108:3000/album/" ++ model.albumId
+                , url = "http://https://juliette-backend.onrender.com/album/" ++ model.albumId
                 , body = Http.jsonBody (Encode.object [("songs", Encode.list songEncoder (changedSongsLiked model songObject))])
                 , expect = Http.expectJson GotAlbum Shared.albumDecoder
                 , tracker = Nothing
@@ -117,7 +117,7 @@ update msg model =
             , Http.request(
                 { method = "PATCH"
                 , headers = []
-                , url = "http://192.168.68.108:3000/album/" ++ model.albumId
+                , url = "http://https://juliette-backend.onrender.com/album/" ++ model.albumId
                 , body = Http.jsonBody (Encode.object [("songs", Encode.list songEncoder (changedSongsListenedTo model songObject))])
                 , expect = Http.expectJson GotAlbum Shared.albumDecoder
                 , tracker = Nothing
@@ -131,7 +131,7 @@ update msg model =
             , Http.request(
                 { method = "PATCH"
                 , headers = []
-                , url = "http://192.168.68.108:3000/album/" ++ model.albumId
+                , url = "http://https://juliette-backend.onrender.com/album/" ++ model.albumId
                 , body = Http.jsonBody (Encode.object [("liked", Encode.bool liked)])
                 , expect = Http.expectJson GotAlbum Shared.albumDecoder
                 , tracker = Nothing

@@ -53,7 +53,7 @@ init : ( Model, Cmd Msg )
 init =
     ( initialModel
     , Http.get(
-        { url = "http://192.168.68.108:3000/albums"
+        { url = "http://https://juliette-backend.onrender.com/albums"
         , expect = Http.expectJson GotAlbums (list Shared.albumDecoder)
         }
       )
@@ -110,7 +110,7 @@ update msg model =
         EnteredSearch ->
             ( model
             , Http.get(
-                { url = "http://192.168.68.108:3000/album/search?q=" ++ model.searchBar
+                { url = "http://https://juliette-backend.onrender.com/album/search?q=" ++ model.searchBar
                 , expect = Http.expectJson GotSuggestedAlbums (list Shared.albumDecoder)
                 }
               )
@@ -125,7 +125,7 @@ update msg model =
         ChoseSuggestedAlbum chosenAlbum ->
             ( { model | suggestedAlbums = [] }
             , Http.post(
-                { url = "http://192.168.68.108:3000/albums/add"
+                { url = "http://https://juliette-backend.onrender.com/albums/add"
                 , body = Http.jsonBody (albumJson chosenAlbum)
                 , expect = Http.expectJson GotAlbums (list Shared.albumDecoder)
                 }
@@ -143,7 +143,7 @@ update msg model =
             , Http.request(
                 { method = "PATCH"
                 , headers = []
-                , url = "http://192.168.68.108:3000/albums/" ++ toUpdate.id
+                , url = "http://https://juliette-backend.onrender.com/albums/" ++ toUpdate.id
                 , body = Http.jsonBody (Encode.object [("liked", Encode.bool toUpdate.liked)])
                 , expect = Http.expectJson GotAlbums (list Shared.albumDecoder)
                 , tracker = Nothing
@@ -157,7 +157,7 @@ update msg model =
             , Http.request(
                 { method = "DELETE"
                 , headers = []
-                , url = "http://192.168.68.108:3000/albums/" ++ id
+                , url = "http://https://juliette-backend.onrender.com/albums/" ++ id
                 , body = Http.emptyBody
                 , expect = Http.expectJson GotAlbums (list Shared.albumDecoder)
                 , tracker = Nothing

@@ -140,7 +140,7 @@ update msg model =
             ( { model | submitMessage = "succesfully updated record!" }, Cmd.none )
 
         Submitted (Err _) ->
-            ( { model | submitMessage = "error with submitting"}, Cmd.none )
+            ( { model | submitMessage = ""}, Cmd.none )
 
         
 

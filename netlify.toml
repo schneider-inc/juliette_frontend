@@ -1,14 +1,3 @@
-[build]
-  publish = "public"
-  command = "npm i elm@latest && npm i elm-spa@latest && elm-spa build"
-
-# Prevents missing markdown files from redirecting to index.html
-[[redirects]]
-  from = "/content/*"
-  to = "/content/:splat"
-  status = 200
-  force = true
-
 [[redirects]]
   from = "/*"
   to = "/index.html"

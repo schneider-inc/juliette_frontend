@@ -104,7 +104,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GotAlbum (Ok album) ->
-            ( { model | price = String.fromFloat album.price, borrowed = album.borrowed, lentOut = album.lentOut, borrowedFrom = album.borrowedFrom, lentOutTo = album.lentOutTo, borrowedReturnDate = album.borrowedReturnDate, lentOutReturnDate = album.lentOutReturnDate }, Cmd.none)
+            ( { model | price = String.fromFloat album.price, borrowed = album.borrowed, lentOut = album.lentOut, borrowedFrom = album.borrowedFrom, lentOutTo = album.lentOutTo, borrowedReturnDate = album.borrowedReturnDate, lentOutReturnDate = album.lentOutReturnDate, wishlist = album.wishlist }, Cmd.none)
         GotAlbum (Err _) ->
             ( { model | submitMessage = "could not fetch info, please enter it in manually" }, Cmd.none )
         ChangedPrice price ->
@@ -229,7 +229,7 @@ view model =
             , Input.checkbox []
                              { onChange = \val -> ChangedWishlist val
                              , icon = Input.defaultCheckbox
-                             , checked = model.lentOut
+                             , checked = model.wishlist
                              , label = Input.labelLeft [] (text "wishlist?")
                              }
             , Input.button (Shared.buttonStyles ++ [Element.htmlAttribute (href "/albums")])  { onPress = Just (ClickedSubmit)

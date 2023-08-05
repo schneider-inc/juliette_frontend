@@ -39,6 +39,7 @@ type alias Model =
     , lentOutTo : String
     , borrowedReturnDate : String
     , lentOutReturnDate : String
+    , wishlist : Bool
     , submitMessage : String
     }
 
@@ -53,6 +54,7 @@ initialModel params =
     , lentOutTo = ""
     , borrowedReturnDate = ""
     , lentOutReturnDate = ""
+    , wishlist = False
     , submitMessage = ""
     }
 
@@ -79,6 +81,7 @@ type Msg
     | ChangedLentOutTo String
     | ChangedBorrowedReturnDate String
     | ChangedLentOutReturnDate String
+    | ChangedWishlist Bool
     | ClickedSubmit
     | Submitted (Result Http.Error Shared.Album)
     | GotAlbum (Result Http.Error Shared.Album)
@@ -94,6 +97,7 @@ patchJson model =
         , ("lentOutTo", Encode.string model.lentOutTo)
         , ("borrowedReturnDate", Encode.string model.borrowedReturnDate)
         , ("lentOutReturnDate", Encode.string model.lentOutReturnDate)
+        , ("wishlist", Encode.bool model.wishlist)
         ]
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -123,6 +127,9 @@ update msg model =
 
         ChangedLentOutReturnDate val ->
             ( { model | lentOutReturnDate = val }, Cmd.none )
+
+        ChangedWishlist val ->
+            ( { model | wishlist = val }, Cmd.none )
 
         ClickedSubmit -> 
             ( model
@@ -219,6 +226,12 @@ view model =
                            }
               else
                 el [] (text "")
+            , Input.checkbox []
+                             { onChange = \val -> ChangedWishlist val
+                             , icon = Input.defaultCheckbox
+                             , checked = model.lentOut
+                             , label = Input.labelLeft [] (text "wishlist?")
+                             }
             , Input.button (Shared.buttonStyles ++ [Element.htmlAttribute (href "/albums")])  { onPress = Just (ClickedSubmit)
                                                 , label = text "Submit changes"
                                                 }

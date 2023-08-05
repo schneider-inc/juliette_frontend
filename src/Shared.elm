@@ -12,6 +12,7 @@ module Shared exposing
     , buttonStyles
     , albumDecoder
     , songDecoder
+    , accentColor
     )
 
 import Json.Decode as Json
@@ -69,9 +70,13 @@ initialModel =
     , selectedFilter = "All"
     }
 
+accentColor : Element.Color
+accentColor =
+    (rgb255 50 200 255)
+
 buttonStyles : List (Element.Attribute msg)
 buttonStyles =
-    [ Background.color (rgb255 50 200 255 )
+    [ Background.color accentColor
     , Border.rounded 10
     , padding 10 
     ]

@@ -239,7 +239,7 @@ suggestedAlbums : Model -> Element Msg
 suggestedAlbums model =
     if not (List.isEmpty model.suggestedAlbums) then
         column
-            [ Border.width 3, height (px 150), scrollbarY, spacing 10, padding 10 ]
+            [ Border.width 3, Border.color Shared.accentColor, height (px 150), scrollbarY, spacing 10, padding 10 ]
             <| List.map suggestedAlbum model.suggestedAlbums
     else
         el [] (text "")
@@ -247,7 +247,7 @@ suggestedAlbums model =
 suggestedAlbum : Shared.Album -> Element Msg
 suggestedAlbum albumObject =
     row
-        [ spacing 10, padding 10, Border.width 1, Border.rounded 10 ]
+        [ spacing 10, padding 10, Border.color Shared.accentColor, Border.width 1, Border.rounded 10 ]
         [ image [ height (px 50), width (px 50) ] 
                 { src = albumObject.coverArtUrl
                 , description = ("cover art for " ++ albumObject.name)
@@ -290,8 +290,8 @@ basicAlbumStart albumObject =
 basicAlbumEnd : Shared.Album -> List (Element Msg)
 basicAlbumEnd albumObject =
     [ el [ alignRight ] (text ("₱" ++ String.fromFloat albumObject.price))
-    , link [ ] { url = "edit/" ++ albumObject.id, label = text "Edit" }
-    , Input.button []
+    , link Shared.buttonStyles { url = "edit/" ++ albumObject.id, label = text "Edit" }
+    , Input.button Shared.buttonStyles
                    { onPress = Just (ClickedDelete albumObject.id)
                    , label = text "Delete"
                    }
@@ -301,9 +301,9 @@ basicAlbumEnd albumObject =
 albumsWrapper : String -> (Shared.Album -> Bool) -> (Shared.Album -> Element Msg) -> Model -> Element Msg
 albumsWrapper title filterfn albumWrapper model = 
     column []
-           [ el [] (text title)
+           [ el [ padding 10 ] (text title)
            , column
-                [ Border.width 3, padding 10 ]
+                [ Border.color Shared.accentColor, Border.width 3, padding 10 ]
                 <| List.map albumWrapper (List.filter filterfn model.albums)
            ]
 
@@ -313,7 +313,7 @@ ownedAlbums model =
 
 albumStyles : List (Element.Attribute Msg)
 albumStyles =
-    [ spacing 10, padding 10, Border.width 1, Border.rounded 10, width fill ]
+    [ spacing 10, padding 10, Border.color Shared.accentColor, Border.width 1, Border.rounded 10, width fill ]
 
 basicAlbum : Shared.Album -> Element Msg
 basicAlbum albumObject = 

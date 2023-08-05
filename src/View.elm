@@ -2,6 +2,8 @@ module View exposing (View, map, none, placeholder, toBrowserDocument)
 
 import Browser
 import Element exposing (Element, text, layout)
+import Element.Background as Background
+import Element exposing (rgb)
 
 
 type alias View msg =

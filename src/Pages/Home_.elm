@@ -21,6 +21,6 @@ view =
     , element =
         column [ centerX, centerY ]
             [ el [ centerX ] (text "Welcome to Juliette's Record Collection!")
-            , link [ centerX ] { url = "/albums", label = text "Click here to view her collection!" }
+            , link (centerX :: Shared.buttonStyles)  { url = "/albums", label = text "Click here to view her collection!" }
             ]
     }

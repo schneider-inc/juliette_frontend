@@ -167,7 +167,7 @@ view model =
 
 albumStyles : List (Element.Attribute Msg)
 albumStyles =
-    [ spacing 10, padding 10, Border.width 1, Border.rounded 10 ]
+    [ spacing 10, padding 10, Border.color Shared.accentColor, Border.width 1, Border.rounded 10 ]
 
 basicAlbum : Model -> Element Msg
 basicAlbum model = 
@@ -191,8 +191,8 @@ basicAlbum model =
 songs : List Shared.Song -> Element Msg
 songs songsList = 
     column
-        [ spacing 10, padding 10, Border.width 1, Border.rounded 10 ]
-        <| List.map songEl songsList
+        [ spacing 10, padding 10, Border.color Shared.accentColor, Border.width 1, Border.rounded 10 ]
+        <| link ( padding 5  :: Shared.buttonStyles) { url = "/albums", label = text "Back to her collection!"} :: List.map songEl songsList
 
 songEl : Shared.Song -> Element Msg
 songEl songObject =

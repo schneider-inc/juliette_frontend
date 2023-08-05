@@ -11,6 +11,8 @@ import Element.Font as Font
 import Http
 import Json.Encode as Encode
 import Json.Decode as Decode exposing (string, field)
+import Html.Attributes exposing (href)
+import Element.Border as Border
 
 
 page : Shared.Model -> Request.With Params -> Page.With Model Msg
@@ -161,7 +163,7 @@ view model =
     { title = "Edit Album"
     , element =
         column 
-            [ padding 30, spacing 10 ]
+            [ Border.color Shared.accentColor, Border.width 3, padding 10, spacing 10 ]
             [ Input.text []
                          { onChange = \val -> ChangedPrice val
                          , label = Input.labelLeft [] (text "price")
@@ -217,10 +219,10 @@ view model =
                            }
               else
                 el [] (text "")
-            , Input.button Shared.buttonStyles  { onPress = Just (ClickedSubmit)
-                                                , label = text "Submit Changes"
+            , Input.button (Shared.buttonStyles ++ [Element.htmlAttribute (href "/albums")])  { onPress = Just (ClickedSubmit)
+                                                , label = text "Submit changes"
                                                 }
             , el [] (text model.submitMessage)
-            , link [] { url = "/albums", label = text "Back to her collection!" }
+            , link Shared.buttonStyles { url = "/albums", label = text "Back to her collection!" }
             ]
     }

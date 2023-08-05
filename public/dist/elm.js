@@ -20018,7 +20018,7 @@ var $author$project$Pages$Edit$Id_$GotAlbum = function (a) {
 	return {$: 'GotAlbum', a: a};
 };
 var $author$project$Pages$Edit$Id_$initialModel = function (params) {
-	return {borrowed: false, borrowedFrom: '', borrowedReturnDate: '', id: params.id, lentOut: false, lentOutReturnDate: '', lentOutTo: '', price: '', priceMessage: '', submitMessage: ''};
+	return {borrowed: false, borrowedFrom: '', borrowedReturnDate: '', id: params.id, lentOut: false, lentOutReturnDate: '', lentOutTo: '', price: '', priceMessage: '', submitMessage: '', wishlist: false};
 };
 var $author$project$Pages$Edit$Id_$init = function (params) {
 	return _Utils_Tuple2(
@@ -20067,7 +20067,10 @@ var $author$project$Pages$Edit$Id_$patchJson = function (model) {
 				$elm$json$Json$Encode$string(model.borrowedReturnDate)),
 				_Utils_Tuple2(
 				'lentOutReturnDate',
-				$elm$json$Json$Encode$string(model.lentOutReturnDate))
+				$elm$json$Json$Encode$string(model.lentOutReturnDate)),
+				_Utils_Tuple2(
+				'wishlist',
+				$elm$json$Json$Encode$bool(model.wishlist))
 			]));
 };
 var $author$project$Pages$Edit$Id_$update = F2(
@@ -20086,7 +20089,8 @@ var $author$project$Pages$Edit$Id_$update = F2(
 								lentOut: album.lentOut,
 								lentOutReturnDate: album.lentOutReturnDate,
 								lentOutTo: album.lentOutTo,
-								price: $elm$core$String$fromFloat(album.price)
+								price: $elm$core$String$fromFloat(album.price),
+								wishlist: album.wishlist
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
@@ -20145,6 +20149,13 @@ var $author$project$Pages$Edit$Id_$update = F2(
 						model,
 						{lentOutReturnDate: val}),
 					$elm$core$Platform$Cmd$none);
+			case 'ChangedWishlist':
+				var val = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{wishlist: val}),
+					$elm$core$Platform$Cmd$none);
 			case 'ClickedSubmit':
 				return _Utils_Tuple2(
 					model,
@@ -20191,6 +20202,9 @@ var $author$project$Pages$Edit$Id_$ChangedLentOutTo = function (a) {
 };
 var $author$project$Pages$Edit$Id_$ChangedPrice = function (a) {
 	return {$: 'ChangedPrice', a: a};
+};
+var $author$project$Pages$Edit$Id_$ChangedWishlist = function (a) {
+	return {$: 'ChangedWishlist', a: a};
 };
 var $author$project$Pages$Edit$Id_$ClickedSubmit = {$: 'ClickedSubmit'};
 var $author$project$Pages$Edit$Id_$view = function (model) {
@@ -20344,6 +20358,20 @@ var $author$project$Pages$Edit$Id_$view = function (model) {
 					$mdgriffith$elm_ui$Element$el,
 					_List_Nil,
 					$mdgriffith$elm_ui$Element$text('')),
+					A2(
+					$mdgriffith$elm_ui$Element$Input$checkbox,
+					_List_Nil,
+					{
+						checked: model.wishlist,
+						icon: $mdgriffith$elm_ui$Element$Input$defaultCheckbox,
+						label: A2(
+							$mdgriffith$elm_ui$Element$Input$labelLeft,
+							_List_Nil,
+							$mdgriffith$elm_ui$Element$text('wishlist?')),
+						onChange: function (val) {
+							return $author$project$Pages$Edit$Id_$ChangedWishlist(val);
+						}
+					}),
 					A2(
 					$mdgriffith$elm_ui$Element$Input$button,
 					_Utils_ap(
@@ -21099,4 +21127,4 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = $elm$browser$Browser$application(
 	{init: $author$project$Main$init, onUrlChange: $author$project$Main$ChangedUrl, onUrlRequest: $author$project$Main$ClickedLink, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
-_Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Gen.Pages.Msg":{"args":[],"type":"Gen.Msg.Msg"},"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"},"Shared.Album":{"args":[],"type":"{ id : String.String, name : String.String, artists : List.List String.String, year : Basics.Int, coverArtUrl : String.String, spotifyId : String.String, price : Basics.Float, borrowed : Basics.Bool, lentOut : Basics.Bool, borrowedFrom : String.String, lentOutTo : String.String, liked : Basics.Bool, borrowedReturnDate : String.String, lentOutReturnDate : String.String, wishlist : Basics.Bool, songs : List.List Shared.Song }"},"Shared.Song":{"args":[],"type":"{ name : String.String, listenedTo : Basics.Bool, liked : Basics.Bool }"}},"unions":{"Main.Msg":{"args":[],"tags":{"ChangedUrl":["Url.Url"],"ClickedLink":["Browser.UrlRequest"],"Shared":["Shared.Msg"],"Page":["Gen.Pages.Msg"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Gen.Msg.Msg":{"args":[],"tags":{"Add":["Pages.Add.Msg"],"Albums":["Pages.Albums.Msg"],"Home_":["Basics.Never"],"Album__Id_":["Pages.Album.Id_.Msg"],"Edit__Id_":["Pages.Edit.Id_.Msg"]}},"Shared.Msg":{"args":[],"tags":{"NoOp":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Pages.Add.Msg":{"args":[],"tags":{"FormSubmitted":[],"ChangedName":["String.String"],"ChangedArtists":["String.String"],"ChangedYear":["String.String"],"ChangedPrice":["String.String"],"ChangedBorrowed":["Basics.Bool"],"ChangedReturnDate":["String.String"],"GotResponse":["Result.Result Http.Error String.String"]}},"Pages.Album.Id_.Msg":{"args":[],"tags":{"GotAlbum":["Result.Result Http.Error Shared.Album"],"ToggleLike":["Shared.Song"],"ToggleAlbumLike":["Basics.Bool"],"ToggleListenedTo":["Shared.Song"]}},"Pages.Albums.Msg":{"args":[],"tags":{"ClickedSidebar":["String.String"],"ChangedSearch":["String.String"],"GotSuggestedAlbums":["Result.Result Http.Error (List.List Shared.Album)"],"EnteredSearch":[],"ChoseSuggestedAlbum":["Shared.Album"],"GotAlbums":["Result.Result Http.Error (List.List Shared.Album)"],"ToggleLike":["{ id : String.String, liked : Basics.Bool }"],"ClickedDelete":["String.String"],"ChoseWishlistAlbum":["Shared.Album"]}},"Pages.Edit.Id_.Msg":{"args":[],"tags":{"ChangedPrice":["String.String"],"ChangedBorrowed":["Basics.Bool"],"ChangedLentOut":["Basics.Bool"],"ChangedBorrowedFrom":["String.String"],"ChangedLentOutTo":["String.String"],"ChangedBorrowedReturnDate":["String.String"],"ChangedLentOutReturnDate":["String.String"],"ClickedSubmit":[],"Submitted":["Result.Result Http.Error Shared.Album"],"GotAlbum":["Result.Result Http.Error Shared.Album"]}},"Basics.Never":{"args":[],"tags":{"JustOneMore":["Basics.Never"]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"Basics.Float":{"args":[],"tags":{"Float":[]}},"List.List":{"args":["a"],"tags":{}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}}}}})}});}(this));
+_Platform_export({'Main':{'init':$author$project$Main$main($elm$json$Json$Decode$value)({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Gen.Pages.Msg":{"args":[],"type":"Gen.Msg.Msg"},"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"},"Shared.Album":{"args":[],"type":"{ id : String.String, name : String.String, artists : List.List String.String, year : Basics.Int, coverArtUrl : String.String, spotifyId : String.String, price : Basics.Float, borrowed : Basics.Bool, lentOut : Basics.Bool, borrowedFrom : String.String, lentOutTo : String.String, liked : Basics.Bool, borrowedReturnDate : String.String, lentOutReturnDate : String.String, wishlist : Basics.Bool, songs : List.List Shared.Song }"},"Shared.Song":{"args":[],"type":"{ name : String.String, listenedTo : Basics.Bool, liked : Basics.Bool }"}},"unions":{"Main.Msg":{"args":[],"tags":{"ChangedUrl":["Url.Url"],"ClickedLink":["Browser.UrlRequest"],"Shared":["Shared.Msg"],"Page":["Gen.Pages.Msg"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Gen.Msg.Msg":{"args":[],"tags":{"Add":["Pages.Add.Msg"],"Albums":["Pages.Albums.Msg"],"Home_":["Basics.Never"],"Album__Id_":["Pages.Album.Id_.Msg"],"Edit__Id_":["Pages.Edit.Id_.Msg"]}},"Shared.Msg":{"args":[],"tags":{"NoOp":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Pages.Add.Msg":{"args":[],"tags":{"FormSubmitted":[],"ChangedName":["String.String"],"ChangedArtists":["String.String"],"ChangedYear":["String.String"],"ChangedPrice":["String.String"],"ChangedBorrowed":["Basics.Bool"],"ChangedReturnDate":["String.String"],"GotResponse":["Result.Result Http.Error String.String"]}},"Pages.Album.Id_.Msg":{"args":[],"tags":{"GotAlbum":["Result.Result Http.Error Shared.Album"],"ToggleLike":["Shared.Song"],"ToggleAlbumLike":["Basics.Bool"],"ToggleListenedTo":["Shared.Song"]}},"Pages.Albums.Msg":{"args":[],"tags":{"ClickedSidebar":["String.String"],"ChangedSearch":["String.String"],"GotSuggestedAlbums":["Result.Result Http.Error (List.List Shared.Album)"],"EnteredSearch":[],"ChoseSuggestedAlbum":["Shared.Album"],"GotAlbums":["Result.Result Http.Error (List.List Shared.Album)"],"ToggleLike":["{ id : String.String, liked : Basics.Bool }"],"ClickedDelete":["String.String"],"ChoseWishlistAlbum":["Shared.Album"]}},"Pages.Edit.Id_.Msg":{"args":[],"tags":{"ChangedPrice":["String.String"],"ChangedBorrowed":["Basics.Bool"],"ChangedLentOut":["Basics.Bool"],"ChangedBorrowedFrom":["String.String"],"ChangedLentOutTo":["String.String"],"ChangedBorrowedReturnDate":["String.String"],"ChangedLentOutReturnDate":["String.String"],"ChangedWishlist":["Basics.Bool"],"ClickedSubmit":[],"Submitted":["Result.Result Http.Error Shared.Album"],"GotAlbum":["Result.Result Http.Error Shared.Album"]}},"Basics.Never":{"args":[],"tags":{"JustOneMore":["Basics.Never"]}},"Basics.Bool":{"args":[],"tags":{"True":[],"False":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"Basics.Float":{"args":[],"tags":{"Float":[]}},"List.List":{"args":["a"],"tags":{}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}}}}})}});}(this));
